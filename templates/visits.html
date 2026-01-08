@@ -1,40 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elenco Visite</title>
+    <title>ChickIn!</title>
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="96x96"
+        href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
+
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon/favicon.svg') }}">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
+
+    <link rel="manifest" href="{{ url_for('static', filename='favicon/site.webmanifest') }}">
 </head>
+
 <body class="bg-light">
 
-<div class="container mt-5">
-    <h1 class="mb-4">Elenco Visite</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Elenco Visite</h1>
 
-    <a href="/" class="btn btn-primary mb-3">Torna alla Home</a>
+        <a href="/" class="btn btn-primary mb-3">Torna alla Home</a>
 
-    <table class="table table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Barcode</th>
-                <th>Tipo</th>
-                <th>Data/Ora</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for visit in visits %}
-            <tr>
-                <td>{{ visit[0] }}</td>         <!-- id -->
-                <td>{{ visit[1] }}</td>         <!-- barcode -->
-                <td>{{ visit[2] }}</td>         <!-- type -->
-                <td>{{ visit[3] }}</td>         <!-- timestamp -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Barcode</th>
+                    <th>Tipo</th>
+                    <th>Data/Ora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for visit in visits %}
+                <tr>
+                    <td>{{ visit[0] }}</td> <!-- id -->
+                    <td>{{ visit[1] }}</td> <!-- barcode -->
+                    <td>{{ visit[2] }}</td> <!-- type -->
+                    <td>{{ visit[3] }}</td> <!-- timestamp -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
+
 </html>
