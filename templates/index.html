@@ -1,0 +1,77 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+</head>
+
+<body>
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVisitModal">Aggiungi
+            Visita</button>
+        <a type="button" class="btn btn-success" href="/visits">Primary</a>
+        <button type="button" class="btn btn-warning">Primary</button>
+    </div>
+
+    <div class="modal fade" id="addVisitModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Inserisci nuova visita</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/add_visit">
+                        <div class="modal-body">
+
+                            <div class="form-floating py-2">
+                                <select class="form-select" name="type" required>
+                                    <option value="Biblioteca" selected>Biblioteca</option>
+                                    <option value="Socio">Socio</option>
+                                    <option value="Turista">Turista</option>
+                                    <option value="Evento">Evento</option>
+                                </select>
+                                <label>Tipo della visita</label>
+                            </div>
+
+                            <div class="form-floating py-2">
+                                <input class="form-control" type="text" name="barcode">
+                                <label>Opzionale - Codice Tesseramento</label>
+                            </div>
+
+                            <div class="form-floating py-2">
+                                <input type="datetime-local" class="form-control" name="timestamp" id="visitDateTime"
+                                    required>
+                                <label>Data e ora della visita</label>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-primary">Salva visita</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('addVisitModal').addEventListener('shown.bs.modal', function () {
+            const input = document.getElementById('visitDateTime');
+            const now = new Date();
+
+            // Formato richiesto: YYYY-MM-DDTHH:MM
+            const formatted = now.toISOString().slice(0, 16);
+            input.value = formatted;
+        });
+    </script>
+
+</body>
+
+
+</html>
