@@ -8,6 +8,8 @@ cur.execute("""
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     barcode TEXT,
     type TEXT,
+    name TEXT, 
+    surname TEXT,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 )
 """)

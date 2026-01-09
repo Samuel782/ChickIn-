@@ -38,6 +38,8 @@
                     <th>ID</th>
                     <th>Barcode</th>
                     <th>Tipo</th>
+                    <th>Nome</th>
+                    <th>Cognome</th>
                     <th>Data/Ora</th>
                 </tr>
             </thead>
@@ -47,7 +49,9 @@
                     <td>{{ visit[0] }}</td> <!-- id -->
                     <td>{{ visit[1] }}</td> <!-- barcode -->
                     <td>{{ visit[2] }}</td> <!-- type -->
-                    <td>{{ visit[3] }}</td> <!-- timestamp -->
+                    <td>{{ visit[3] }}</td> <!-- nome -->
+                    <td>{{ visit[4] }}</td> <!-- Cognome -->
+                    <td>{{ visit[5] }}</td> <!-- timestamp -->
                 </tr>
                 {% endfor %}
             </tbody>

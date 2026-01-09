@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 from queue import Queue
 from threading import Thread
-from barcode_reader import barcode_listener
+
 import time
 
 app = Flask(__name__)
@@ -34,39 +34,6 @@ def save_barcode(barcode):
     conn.commit()
     conn.close()
 
-
-# ==========================
-# BARCODE HANDLER
-# ==========================
-
-def handle_barcode(barcode: str):
-    print("Received:", barcode)
-    barcode_queue.put(barcode)
-
-
-def barcode_worker():
-    while True:
-        barcode = barcode_queue.get()
-        save_barcode(barcode)
-
-
-# ==========================
-# START BACKGROUND THREADS
-# ==========================
-
-def start_background_threads():
-    Thread(
-        target=barcode_listener,
-        args=(handle_barcode,),
-        daemon=True
-    ).start()
-
-    Thread(
-        target=barcode_worker,
-        daemon=True
-    ).start()
-
-
 # ==========================
 # ROUTES
 # ==========================
@@ -80,13 +47,15 @@ def home():
 def add_visit():
     barcode = request.form.get("barcode")
     visit_type = request.form.get("type")
+    name = request.form.get("name")
+    surname = request.form.get("surname")
     timestamp = request.form.get("timestamp")
 
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO scans (barcode, type, timestamp) VALUES (?, ?, ?)",
-        (barcode, visit_type, timestamp)
+        "INSERT INTO scans (barcode, type, name, surname, timestamp) VALUES (?, ?, ?, ?, ?)",
+        (barcode, visit_type, name, surname, timestamp)
     )
     conn.commit()
     conn.close()
@@ -110,5 +79,5 @@ def show_visits():
 # ==========================
 
 if __name__ == "__main__":
-    start_background_threads()
+
     app.run(debug=False)
