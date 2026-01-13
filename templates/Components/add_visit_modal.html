@@ -1,0 +1,207 @@
+<div class="modal fade" id="addVisitModal" tabindex="-1" aria-labelledby="addVisitLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow-lg rounded-4">
+            <!-- Header -->
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title d-flex align-items-center gap-2" id="addVisitLabel">
+                    <i class="bi bi-calendar-plus"></i>
+                    Inserisci nuova visita
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Body -->
+            <form method="POST" action="/add_visit">
+                <div class="modal-body">
+
+                    <!-- Tipo visita -->
+                    <div class="row g-3 mb-3 align-items-center">
+                        <!-- Colonna 1: Tipo visita -->
+                        <div class="col-md-8">
+                            <div class="form-floating">
+                                <select class="form-select" name="type" id="visitType" required>
+                                    <option value="Biblioteca" selected>Biblioteca</option>
+                                    <option value="Servizi">Servizi</option>
+                                    <option value="Turista">Turista</option>
+                                    <option value="Evento">Evento</option>
+                                    <option value="Cittadino">Cittadino</option>
+                                    <option value="Scuole">Scuole</option>
+                                </select>
+                                <label>Tipo della visita</label>
+                            </div>
+                        </div>
+
+                        <!-- Colonna 2: Moltiplicatore -->
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" name="multiplier" id="visitMultiplier"
+                                    value="1" min="1">
+                                <label>Numero Visitatori</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+                    <!--Campo Dinamico-->
+                    <div id="dynamicFields"></div>
+
+                    <!-- ================= TEMPLATES ================= -->
+                    <!-- Template nascosti -->
+                    <template id="templateBiblioteca">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="text" name="name" placeholder="Nome">
+                                    <label>Nome (opzionale)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="text" name="surname" placeholder="Cognome">
+                                    <label>Cognome (opzionale)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <input class="form-control" type="text" name="barcode" placeholder="Codice">
+                            <label>Codice tesseramento (opzionale)</label>
+                        </div>
+                    </template>
+
+                    <template id="templateEvento">
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="text" name="eventName" placeholder="Nome Evento">
+                            <label>Nome dell'evento</label>
+                        </div>
+                    </template>
+
+                    <!-- Altri template: Turista, Cittadino, Socio -->
+                    <template id="templateTurista">
+                        <div class="form-floating mb-3">
+                            <div class="form-floating mt-3">
+                                <input class="form-control" type="text" name="country" placeholder="Paese">
+                                <label>Paese di provenienza (opzionale)</label>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="text" name="name" placeholder="Nome">
+                                        <label>Nome (opzionale)</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="text" name="surname" placeholder="Cognome">
+                                        <label>Cognome (opzionale)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template id="templateCittadino">
+                        <div class="form-floating mb-3">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="text" name="name" placeholder="Nome">
+                                        <label>Nome (opzionale)</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="text" name="surname" placeholder="Cognome">
+                                        <label>Cognome (opzionale)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template id="templateServizi">
+                        <div class="form-floating mb-3">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="text" name="name" placeholder="Nome">
+                                        <label>Nome (opzionale)</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="text" name="surname" placeholder="Cognome">
+                                        <label>Cognome (opzionale)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template id="templateScuole">
+                        <div class="form-floating mb-3">
+                            <div class="form-floating">
+                                <input class="form-control" type="text" name="name" placeholder="Nome">
+                                <label>Nome Scuola</label>
+                            </div>
+                        </div>
+
+                    </template>
+
+
+                    <!-- Data e ora -->
+                    <div class="form-floating mt-3">
+                        <input type="datetime-local" class="form-control" name="timestamp" id="visitDateTime" required>
+                        <label>Data e ora della visita</label>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Annulla
+                    </button>
+                    <button type="submit" class="btn btn-primary px-4">
+                        Salva visita
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const dynamicFields = document.getElementById('dynamicFields');
+    const visitType = document.getElementById('visitType');
+
+    // Mappiamo i template agli ID del dropdown
+    const templateMap = {
+        "Biblioteca": "templateBiblioteca",
+        "Evento": "templateEvento",
+        "Turista": "templateTurista",
+        "Cittadino": "templateCittadino",
+        "Servizi": "templateServizi",
+        "Scuole": "templateScuole"
+    };
+
+    function updateDynamicFields() {
+        const selectedType = visitType.value;
+        const templateId = templateMap[selectedType];
+
+        // Puliamo il contenitore
+        dynamicFields.innerHTML = '';
+
+        if (templateId) {
+            const template = document.getElementById(templateId);
+            const clone = template.content.cloneNode(true);  // clona senza modificare il template originale
+            dynamicFields.appendChild(clone);
+        }
+    }
+
+    // Aggiorna al cambio
+    visitType.addEventListener('change', updateDynamicFields);
+
+    // Aggiorna all'apertura modale
+    document.addEventListener('DOMContentLoaded', updateDynamicFields);
+</script>

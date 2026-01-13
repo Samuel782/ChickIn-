@@ -23,17 +23,6 @@ barcode_queue = Queue()
 def get_db():
     return sqlite3.connect(DATABASE, check_same_thread=False)
 
-
-def save_barcode(barcode):
-    conn = get_db()
-    cur = conn.cursor()
-    cur.execute(
-        "INSERT INTO scans (barcode, timestamp) VALUES (?, datetime('now'))",
-        (barcode,)
-    )
-    conn.commit()
-    conn.close()
-
 # ==========================
 # ROUTES
 # ==========================
@@ -80,4 +69,4 @@ def show_visits():
 
 if __name__ == "__main__":
 
-    app.run(debug=False)
+    app.run(debug=True)

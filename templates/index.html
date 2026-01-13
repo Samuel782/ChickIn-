@@ -54,84 +54,8 @@
 
                 </div>
             </div>
-            <div class="modal fade" id="addVisitModal" tabindex="-1" aria-labelledby="addVisitLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content shadow-lg rounded-4">
-
-                        <!-- Header -->
-                        <div class="modal-header bg-primary text-white rounded-top-4">
-                            <h5 class="modal-title d-flex align-items-center gap-2" id="addVisitLabel">
-                                <i class="bi bi-calendar-plus"></i>
-                                Inserisci nuova visita
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-
-                        <!-- Body -->
-                        <form method="POST" action="/add_visit">
-                            <div class="modal-body">
-
-                                <!-- Tipo visita -->
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" name="type" required>
-                                        <option value="Biblioteca" selected>Biblioteca</option>
-                                        <option value="Socio">Socio</option>
-                                        <option value="Turista">Turista</option>
-                                        <option value="Evento">Evento</option>
-                                        <option value="Cittadino">Cittadino</option>
-                                    </select>
-                                    <label>Tipo della visita</label>
-                                </div>
-
-                                <hr class="my-4">
-
-                                <!-- Nome / Cognome -->
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input class="form-control" type="text" name="name" placeholder="Nome">
-                                            <label>Nome (opzionale)</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input class="form-control" type="text" name="surname"
-                                                placeholder="Cognome">
-                                            <label>Cognome (opzionale)</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Barcode -->
-                                <div class="form-floating mt-3">
-                                    <input class="form-control" type="text" name="barcode" placeholder="Codice">
-                                    <label>Codice tesseramento (opzionale)</label>
-                                </div>
-
-                                <!-- Data e ora -->
-                                <div class="form-floating mt-3">
-                                    <input type="datetime-local" class="form-control" name="timestamp"
-                                        id="visitDateTime" required>
-                                    <label>Data e ora della visita</label>
-                                </div>
-
-                            </div>
-
-                            <!-- Footer -->
-                            <div class="modal-footer border-0 pt-0">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Annulla
-                                </button>
-                                <button type="submit" class="btn btn-primary px-4">
-                                    Salva visita
-                                </button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
+            {% include 'components/add_visit_modal.html' %}
+           
         </div>
 
         </div>
