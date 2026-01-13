@@ -10,6 +10,8 @@ dist/
 build/
 *.log
 
+#PDF
+*.pdf
 # SQLite database
 *.db
 database.db

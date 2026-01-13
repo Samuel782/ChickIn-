@@ -1,0 +1,58 @@
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-4">
+
+            <!-- Header -->
+            <div class="modal-header bg-warning text-dark rounded-top-4">
+                <h5 class="modal-title" id="reportModalLabel">Genera Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Body -->
+            <form method="GET" action="/generate_report">
+                <div class="modal-body">
+
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" name="start_date" id="startDate" required>
+                        <label for="startDate">Data inizio</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" name="end_date" id="endDate" required>
+                        <label for="endDate">Data fine</label>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-warning px-4">Genera PDF</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // Funzione per impostare le date di default
+    function setDefaultReportDates() {
+        const startInput = document.getElementById('startDate');
+        const endInput = document.getElementById('endDate');
+
+        const today = new Date();
+        const priorMonth = new Date();
+        priorMonth.setMonth(priorMonth.getMonth() - 1);
+
+        // Formatta in YYYY-MM-DD
+        const formatDate = (date) => date.toISOString().slice(0, 10);
+
+        startInput.value = formatDate(priorMonth);
+        endInput.value = formatDate(today);
+    }
+
+    // Imposta le date all'apertura della modale
+    const reportModal = document.getElementById('reportModal');
+    reportModal.addEventListener('shown.bs.modal', setDefaultReportDates);
+</script>

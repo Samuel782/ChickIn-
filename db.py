@@ -21,7 +21,6 @@ CREATE TABLE IF NOT EXISTS visits (
     
     -- Campi specifici per Evento
     event_name TEXT,
-    participants INTEGER,
     
     -- Campi specifici per Turista
     country TEXT,

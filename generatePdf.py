@@ -1,5 +1,5 @@
 import os 
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, Spacer, Image, ListFlowable, ListItem
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm
@@ -153,63 +153,86 @@ styles.add(ParagraphStyle(
     spaceAfter=10
 ))
 
-
-startDay = "01-01-2026"
-endDay = "31-01-2026"
-
-totale = 1843
-servizi = 610
-biblioteca = 940
-turisti = 620
-cittadini = 845
-
-
-contenuto = [
-    Paragraph("REPORT AFFLUENZA", styles["ReportTitle"]),
-    Paragraph(f"Periodo di riferimento: dal {startDay} al {endDay}", styles["ReportSection"]),
-    Paragraph("Ex Convento di Santa Chiara", styles["ReportSubtitle"]),
-    Paragraph("Via S. Chiara, 2", styles["ReportSubtitle"]),
-    Paragraph("Santa Spazio culturale – Biblioteca del vicolo", styles["ReportSubtitle"]),
-   
-    Paragraph(
-        "Questo documento riporta le informazioni relative alle visite registrate.",
-        styles["Body"]
+def genera_report_pdf(
+    pdf_path: str,
+    start_day: str,
+    end_day: str,
+    totale: int,
+    servizi: int,
+    evento: int,
+    biblioteca: int,
+    turisti: int,
+    scuole: int,
+    cittadini: int
+):
+    doc = SimpleDocTemplate(
+        pdf_path,
+        pagesize=A4,
+        topMargin=4 * cm,
+        leftMargin=LEFT_MARGIN,
+        rightMargin=RIGHT_MARGIN,
+        bottomMargin=2.5 * cm
     )
-    
-]
 
-report_labels = ["TOTALE", "SERVIZI", "BIBLIOTECA", "TURISTI", "CITTADINI"]
-report_values = [1843, 610, 940, 620, 845]
+    # Contenuto PDF
+    contenuto = [
+        Paragraph("REPORT AFFLUENZA", styles["ReportTitle"]),
+        Paragraph(f"Periodo di riferimento: dal {start_day} al {end_day}", styles["ReportSection"]),
+        Paragraph("Ex Convento di Santa Chiara", styles["ReportSubtitle"]),
+        Paragraph("Via S. Chiara, 2", styles["ReportSubtitle"]),
+        Paragraph("Santa Spazio culturale – Biblioteca del vicolo", styles["ReportSubtitle"]),
+        Paragraph("Questo documento riporta le informazioni relative alle visite registrate.", styles["Body"]),
+        Spacer(1, 12),
+        # TOTALE grande e centrato
+        Paragraph(f"TOTALE: {totale}", ParagraphStyle(
+            name="TotalValue",
+            fontName="Helvetica-Bold",
+            fontSize=28,
+            leading=32,
+            alignment=1,
+            textColor=HexColor("#1F2D3D"),
+            spaceAfter=10
+        )),
+        # Frase introduttiva
+        Paragraph("Di seguito il dettaglio dei valori per categoria:", styles["Body"]),
+        Spacer(1, 6)
+    ]
 
-# Creiamo due righe: una per i titoli, una per i valori
-table_data = [
-    [Paragraph(label, styles["MetricTitle"]) for label in report_labels],
-    [Paragraph(str(value), styles["MetricValue"]) for value in report_values]
-]
+    # Dettaglio categorie come elenco puntato
+    dettagli = [
+        ("Biblioteca", biblioteca),
+        ("Evento", evento),
+        ("Turista", turisti),
+        ("Cittadino", cittadini),
+        ("Servizi", servizi),
+        ("Scuole", scuole)
+    ]
 
-# Tabella centrale, senza bordi
-table = Table(table_data, hAlign='CENTER', colWidths=[None]*len(report_labels))
-table.setStyle(TableStyle([
-    ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-    ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-    # Nessun bordo
-    ('BOX', (0,0), (-1,-1), 0, HexColor("#FFFFFF")),
-    ('INNERGRID', (0,0), (-1,-1), 0, HexColor("#FFFFFF")),
-]))
+    lista = ListFlowable(
+        [ListItem(Paragraph(f"{nome}: {valore}", ParagraphStyle(
+            name="ListItem",
+            fontName="Helvetica",
+            fontSize=12,
+            leading=16,
+            textColor=HexColor("#333333")
+        )), bulletColor=HexColor("#1F2D3D")) for nome, valore in dettagli],
+        bulletType='bullet',
+        start='circle',
+        leftIndent=18
+    )
 
-contenuto.append(table)
+    contenuto.append(lista)
 
-grafico_path = crea_istogramma(report_values, report_labels, output_path="istogramma_temp.png")
-contenuto.append(Image(grafico_path, width=14*cm, height=9*cm))  # dimensione PDF
+    # Istogramma
+    report_labels = ["Biblioteca", "Evento", "Turista", "Cittadino", "Servizi", "Scuole"]
+    report_values = [biblioteca, evento, turisti, cittadini, servizi, scuole]  # Eventuali valori 0 per placeholder
+    grafico_path = crea_istogramma(report_values, report_labels, output_path="istogramma_temp.png")
+    contenuto.append(Spacer(1, 12))
+    contenuto.append(Image(grafico_path, width=14*cm, height=9*cm))
 
-if os.path.exists(grafico_path):
-    os.remove(grafico_path)
+    doc.build(contenuto, onFirstPage=header, onLaterPages=header)
 
-doc.build(
-    contenuto,
-    onFirstPage=header,
-    onLaterPages=header
-)
+    if os.path.exists(grafico_path):
+        os.remove(grafico_path)
 
-
-
+    return pdf_path

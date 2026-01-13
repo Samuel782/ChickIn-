@@ -1,16 +1,18 @@
+import matplotlib
+matplotlib.use('Agg')  
 import matplotlib.pyplot as plt
-from reportlab.lib.units import cm
 
 def crea_istogramma(report_values, report_labels, output_path="istogramma.png"):
     """
-    report_values: lista di valori numerici [Totale, Servizi, Biblioteca]
-    report_labels: lista di etichette corrispondenti ["TOTALE", "SERVIZI", "BIBLIOTECA"]
+    report_values: lista di valori numerici
+    report_labels: lista di etichette corrispondenti
     output_path: percorso dove salvare il PNG
     """
-    # colori soft coordinati
-    colori = ["#2C3E50", "#4A6C8C", "#7F9BBF"]  # blu istituzionali soft
+    # colori soft coordinati (ripetuti se più barre)
+    base_colors = ["#2C3E50", "#4A6C8C", "#7F9BBF", "#A3B7D5", "#C8D6EB"]
+    colori = [base_colors[i % len(base_colors)] for i in range(len(report_values))]
 
-    plt.figure(figsize=(6,4))  # dimensioni PDF compatibili
+    plt.figure(figsize=(6,4))
     bars = plt.bar(report_labels, report_values, color=colori, width=0.5)
 
     # valori sopra le barre

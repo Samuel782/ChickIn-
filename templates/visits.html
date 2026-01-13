@@ -32,26 +32,32 @@
 
         <a href="/" class="btn btn-primary mb-3">Torna alla Home</a>
 
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Barcode</th>
                     <th>Tipo</th>
+                    <th>Data e ora</th>
+                    <th>Moltiplicatore</th>
                     <th>Nome</th>
                     <th>Cognome</th>
-                    <th>Data/Ora</th>
+                    <th>Barcode</th>
+                    <th>Evento</th>
+                    <th>Paese</th>
+                    <th>Scuola</th>
                 </tr>
             </thead>
             <tbody>
                 {% for visit in visits %}
                 <tr>
-                    <td>{{ visit[0] }}</td> <!-- id -->
-                    <td>{{ visit[1] }}</td> <!-- barcode -->
-                    <td>{{ visit[2] }}</td> <!-- type -->
-                    <td>{{ visit[3] }}</td> <!-- nome -->
-                    <td>{{ visit[4] }}</td> <!-- Cognome -->
-                    <td>{{ visit[5] }}</td> <!-- timestamp -->
+                    <td>{{ visit['type'] }}</td>
+                    <td>{{ visit['timestamp'] }}</td>
+                    <td>{{ visit['multiplier'] }}</td>
+                    <td>{{ visit['name'] or '' }}</td>
+                    <td>{{ visit['surname'] or '' }}</td>
+                    <td>{{ visit['barcode'] or '' }}</td>
+                    <td>{{ visit['event_name'] or '' }}</td>
+                    <td>{{ visit['country'] or '' }}</td>
+                    <td>{{ visit['school_name'] or '' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

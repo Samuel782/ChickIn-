@@ -26,14 +26,27 @@
 <body>
 
     <body class="bg-light">
-        <div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items-center m-4 position-relative">
 
-            <!-- LOGO / HERO -->
-            <div class="text-center mb-4">
-                <img src="{{ url_for('static', filename='img/2.png') }}" alt="ChickIn" class="img-fluid mb-3 rounded"
-                    style="max-width: 70%;">
-                <p class="text-muted">Sistema digitale di registrazione affluenze</p>
+            <!-- Logo sinistro -->
+            <img src="{{ url_for('static', filename='img/santa.png') }}" alt="Santa" class="position-absolute start-0"
+                style="height: 80px; object-fit: contain;">
+
+            <!-- Logo centrale (Hero) -->
+            <div class="text-center mx-auto">
+                <img src="{{ url_for('static', filename='img/2.png') }}" alt="ChickIn" class="img-fluid rounded"
+                    style="height: 15rem; object-fit: contain; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p class="text-muted fw-semibold mt-2 mb-0">Sistema digitale di registrazione affluenze</p>
             </div>
+
+            <!-- Logo destro -->
+            <img src="{{ url_for('static', filename='img/biblioteca.png') }}" alt="Biblioteca del Vicolo"
+                class="position-absolute end-0" style="height: 80px; object-fit: contain;">
+        </div>
+
+        <div class="container  d-flex flex-column justify-content-center align-items-center">
+            <!-- HEADER CON LOGHI LATERALI E LOGO CENTRALE -->
+
 
             <!-- ACTION CARD -->
             <div class="card shadow-lg p-4" style="max-width: 420px; width: 100%;">
@@ -48,14 +61,15 @@
                         📋 Visualizza visite
                     </a>
 
-                    <button class="btn btn-outline-warning btn-lg" disabled>
-                        📷 Stampa Report (coming soon)
+                    <button class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#reportModal">
+                        📷 Stampa Report
                     </button>
 
                 </div>
             </div>
             {% include 'components/add_visit_modal.html' %}
-           
+            {% include 'components/report_modal.html' %}
+
         </div>
 
         </div>
